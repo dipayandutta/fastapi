@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -30,3 +31,20 @@ def get_age(age: int):
 @app.get("/name/{name}")
 def user_name(name: str, age: Optional[int] = None):
     return {"Name": f"Hello {name} you are {age} years old!"}
+
+
+
+class Student(BaseModel):
+    name: str
+    age: int
+    email: str
+    address: str
+
+@app.post("/create_student")
+def create_student(student: Student):
+   return {
+    "name": student.name,
+    "age": student.age,
+    "email": student.email,
+    "address": student.address
+   }
